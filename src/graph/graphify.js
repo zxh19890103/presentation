@@ -1,12 +1,12 @@
 define((require) => {
     const array = require('../data/arr')
-    const desc = require('../data/desc')
+    const explains = require('../data/explains')
     const sortUtil = require('../sort/index')
     const util = require('../util/index')
 
     const WIDTH = 680
     const HEIGHT = WIDTH / 2 // 340
-    const BAR_WIDTH = Math.floor(WIDTH / array.length)
+    const BAR_WIDTH = WIDTH / array.length
 
     let canvas = null
     let ctx = null
@@ -17,10 +17,12 @@ define((require) => {
     let stopSignal = false
     let isRunning = false
     let onSortAnimationStopped = null
+    let sortKeys = [
+        'bubble', 'insert', 'select', 'heap', 'quick'
+    ]
 
     const init = () => {
         const ratio = window.devicePixelRatio
-        console.log(ratio)
         canvas = document.createElement('canvas')
         canvas.width = Math.floor(WIDTH * ratio)
         canvas.height = Math.floor(HEIGHT * ratio)
@@ -33,24 +35,16 @@ define((require) => {
         document.body.appendChild(canvas)
 
         // buttons
-        const keys = [
-            'bubble', 'insert', 'select'
-        ]
         const buttonsWrap = document.createElement('div')
         buttonsWrap.style.margin = '12px'
-        keys.forEach(key => {
+        sortKeys.forEach(key => {
             const button = createButton(
-                desc[key].title.toUpperCase(),
+                explains[key].title.toUpperCase(),
                 () => {
-                    if (isRunning) {
-                        stopSortAnimation(() => {
-                            currentKey = key
-                            playSortAnimation(key)
-                        })
-                    } else {
+                    stopSortAnimation(() => {
                         currentKey = key
                         playSortAnimation(key)
-                    }
+                    })
                 }
             )
             buttonsWrap.appendChild(button)
@@ -69,7 +63,15 @@ define((require) => {
                 }
             })
         })
+        const stopButton = createButton('Stop', () => {
+            stopSortAnimation()
+        })
+        const resumeButton = createButton('Resume', () => {
+            startSortAnimation()
+        })
         ctrlsWrap.appendChild(disOrderButton)
+        ctrlsWrap.appendChild(stopButton)
+        ctrlsWrap.appendChild(resumeButton)
         document.body.appendChild(ctrlsWrap)
 
         // description
@@ -116,7 +118,7 @@ define((require) => {
     }
 
     const wait = (callback) => {
-        if (N > 5) {
+        if (N > 1) {
             N = 0
             callback && callback()
             return 
@@ -132,24 +134,44 @@ define((require) => {
         size: 0,
         pop() {
             this.size --
-            return this.stack.pop()
+            this.stack.pop()
         },
         pick() {
+            // console.log(this.size)
             return this.stack[this.size - 1]
         },
-        push(sorter) {
+        push(gen) {
             this.size ++
-            return this.stack.push(sorter)
+            this.stack.push(gen)
+        },
+        next() {
+            const first = this.pick()
+            const { done } = first.next()
+            if (done) {
+                this.pop()
+                if (this.size === 0) {
+                    isRunning = false
+                    alert('Over')
+                } else {
+                    this.next()
+                }
+            } else {
+            }
         }
     }
 
+    /**
+     * 
+     * @param {*} key 
+     */
     const playSortAnimation = (key) => {
         const sorter = sortUtil[key]
-        sortGenManager.push(sorter.sort(array))
-        const sortGen = sortGenManager.pick()
+        const gen = sorter.sort(array)
+        sortGenManager.push(gen)
         const { h4, p } = text
-        h4.innerText = desc[key].title
-        p.innerText = desc[key].desc
+        const { title, desc } = explains[key]
+        h4.innerText = title
+        p.innerText = desc
         sorter.onSwap((i, j) => {
             if (stopSignal) {
                 stopSignal = false
@@ -159,26 +181,38 @@ define((require) => {
             }
             draw(array)
             wait(() => {
-                const val = sortGen.next()
-                if (val.done) {
-                    isRunning = false
-                }
-                if (val.value !== undefined) {
-                    // val.value is a new generator
-
-                }
+                sortGenManager.next()
             })
         })
+        if (sorter.onDeep) {
+            sorter.onDeep((gen) => {
+                wait(() => {
+                    // value is a new generator
+                    sortGenManager.push(gen)
+                    // start
+                    sortGenManager.next()
+                })
+            })
+        }
+        startSortAnimation()
+    }
+
+    const startSortAnimation = () => {
         // start
-        sortGen.next()
+        if (isRunning) return
+        sortGenManager.next()
         isRunning = true
     }
 
     const stopSortAnimation = (callback) => {
-        stopSignal = true
-        onSortAnimationStopped = () => {
+        if (isRunning) {
+            stopSignal = true
+            onSortAnimationStopped = () => {
+                callback && callback()
+                onSortAnimationStopped = null
+            }
+        } else {
             callback && callback()
-            onSortAnimationStopped = null
         }
     }
 

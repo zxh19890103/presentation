@@ -2,17 +2,22 @@ define((require) => {
 
     const { swap } = require('../util/index')
     let onSwap = null
+    let onDeep = null
     
     const sort = function* (arr) {
         // make max heap
         // 1. swap the first and the last
         // 2. let the last alone, and makeMaxHeap again.
-        makeMaxHeap(arr)
+        const g = makeMaxHeap(arr)
+        onDeep && onDeep(g)
+        yield
         for (let size = arr.length, i = size - 1; i >= 0; i --) {
             swap(arr, i, 0)
             onSwap && onSwap()
             yield
-            yield heapify(arr, 0, i)
+            const g = heapify(arr, 0, i)
+            onDeep && onDeep(g)
+            yield
         }
     }
     
@@ -38,14 +43,18 @@ define((require) => {
         swap(arr, biggest, tree)
         onSwap && onSwap()
         yield
-        yield heapify(arr, biggest, end)
+        const g = heapify(arr, biggest, end)
+        onDeep && onDeep(g)
+        yield
     }
     
     const makeMaxHeap = function* (arr) {
         const size = arr.length
         const start = Math.floor(size / 2) - 1
         for (let i = start; i >= 0; i--) {
-            yield heapify(arr, i, size - 1)   //大的值不断上浮
+            const g = heapify(arr, i, size - 1)
+            onDeep && onDeep(g) //大的值不断上浮
+            yield
         }
     }
     
@@ -64,6 +73,9 @@ define((require) => {
         sort,
         onSwap: (func) => {
             onSwap = func
+        },
+        onDeep: (func) => {
+            onDeep = func
         }
     }
 })
