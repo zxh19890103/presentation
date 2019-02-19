@@ -12,7 +12,7 @@ define((require) => {
             swap(arr, i, 0)
             onSwap && onSwap()
             yield
-            heapify(arr, 0, i)
+            yield heapify(arr, 0, i)
         }
     }
     
@@ -28,7 +28,7 @@ define((require) => {
      *     3---1  2---
      * @param {*} arr 
      */
-    const heapify = function (arr, tree = 0, end = 0) {
+    const heapify = function* (arr, tree = 0, end = 0) {
         let leftChild = 2 * tree + 1
         let rightChild = leftChild + 1
         if (leftChild >= end) return
@@ -37,14 +37,15 @@ define((require) => {
         if (biggest === tree) return
         swap(arr, biggest, tree)
         onSwap && onSwap()
-        heapify(arr, biggest, end)
+        yield
+        yield heapify(arr, biggest, end)
     }
     
-    const makeMaxHeap = (arr) => {
+    const makeMaxHeap = function* (arr) {
         const size = arr.length
         const start = Math.floor(size / 2) - 1
         for (let i = start; i >= 0; i--) {
-            heapify(arr, i, size - 1)   //大的值不断上浮
+            yield heapify(arr, i, size - 1)   //大的值不断上浮
         }
     }
     

@@ -19,12 +19,17 @@ define((require) => {
     let onSortAnimationStopped = null
 
     const init = () => {
+        const ratio = window.devicePixelRatio
+        console.log(ratio)
         canvas = document.createElement('canvas')
-        canvas.width = WIDTH
-        canvas.height = HEIGHT
+        canvas.width = Math.floor(WIDTH * ratio)
+        canvas.height = Math.floor(HEIGHT * ratio)
         canvas.style.border = '1px solid #DDD'
         canvas.style.margin = '12px'
+        canvas.style.width = WIDTH + 'px'
+        canvas.style.height = HEIGHT + 'px'
         ctx = canvas.getContext('2d')
+        ctx.scale(ratio, ratio)
         document.body.appendChild(canvas)
 
         // buttons
@@ -122,9 +127,26 @@ define((require) => {
         })
     }
 
+    const sortGenManager = {
+        stack: [],
+        size: 0,
+        pop() {
+            this.size --
+            return this.stack.pop()
+        },
+        pick() {
+            return this.stack[this.size - 1]
+        },
+        push(sorter) {
+            this.size ++
+            return this.stack.push(sorter)
+        }
+    }
+
     const playSortAnimation = (key) => {
         const sorter = sortUtil[key]
-        const sortGen =  sorter.sort(array)
+        sortGenManager.push(sorter.sort(array))
+        const sortGen = sortGenManager.pick()
         const { h4, p } = text
         h4.innerText = desc[key].title
         p.innerText = desc[key].desc
@@ -140,6 +162,10 @@ define((require) => {
                 const val = sortGen.next()
                 if (val.done) {
                     isRunning = false
+                }
+                if (val.value !== undefined) {
+                    // val.value is a new generator
+
                 }
             })
         })
