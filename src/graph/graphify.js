@@ -13,11 +13,14 @@ define((require) => {
     let text = null
 
     let N = 0
-    let currentKey = ''
+    let currentKey = '' // current sort key.
     let stopSignal = false
-    let isRunning = false
+    let isRunning = false 
+    let pauseSignal = false
+    let isPaused = false
     let onSortAnimationStopped = null
-    let sortKeys = [
+    let onSortAnimationPaused = null
+    const sortKeys = [
         'bubble', 'insert', 'select', 'heap', 'quick'
     ]
 
@@ -41,10 +44,15 @@ define((require) => {
             const button = createButton(
                 explains[key].title.toUpperCase(),
                 () => {
-                    stopSortAnimation(() => {
+                    const handle = () => {
                         currentKey = key
                         playSortAnimation(key)
-                    })
+                    }
+                    if (isRunning) {
+                        stopSortAnimation(handle)
+                    } else {
+                        handle()
+                    }
                 }
             )
             buttonsWrap.appendChild(button)
@@ -55,22 +63,29 @@ define((require) => {
         const ctrlsWrap = document.createElement('div')
         ctrlsWrap.style.margin = '12px'
         const disOrderButton = createButton('DisOrder', () => {
-            stopSortAnimation(() => {
+            const handle = () => {
                 util.disOrder(array)
                 draw(array)
-                if (currentKey) {
-                    playSortAnimation(currentKey)
-                }
-            })
+                currentKey && playSortAnimation(currentKey)
+            }
+            if (isRunning) {
+                stopSortAnimation(handle)
+            } else {
+                handle()
+            }
         })
         const stopButton = createButton('Stop', () => {
             stopSortAnimation()
         })
+        const pauseButton = createButton('Pause', () => {
+            pauseSortAnimation()
+        })
         const resumeButton = createButton('Resume', () => {
-            startSortAnimation()
+            resumeSortAnimation()
         })
         ctrlsWrap.appendChild(disOrderButton)
         ctrlsWrap.appendChild(stopButton)
+        ctrlsWrap.appendChild(pauseButton)
         ctrlsWrap.appendChild(resumeButton)
         document.body.appendChild(ctrlsWrap)
 
@@ -150,6 +165,7 @@ define((require) => {
             if (done) {
                 this.pop()
                 if (this.size === 0) {
+                    // normally stopped.
                     isRunning = false
                     alert('Over')
                 } else {
@@ -157,6 +173,13 @@ define((require) => {
                 }
             } else {
             }
+        },
+        clear() {
+            this.size = 0
+            this.stack.forEach(g => {
+                g.return()
+            })
+            this.stack = []
         }
     }
 
@@ -164,7 +187,7 @@ define((require) => {
      * 
      * @param {*} key 
      */
-    const playSortAnimation = (key) => {
+    const playSortAnimation = (key) => {        
         const sorter = sortUtil[key]
         const gen = sorter.sort(array)
         sortGenManager.push(gen)
@@ -172,11 +195,13 @@ define((require) => {
         const { title, desc } = explains[key]
         h4.innerText = title
         p.innerText = desc
-        sorter.onSwap((i, j) => {
+        sorter.onSwap(() => {
             if (stopSignal) {
-                stopSignal = false
-                isRunning = false
                 onSortAnimationStopped && onSortAnimationStopped()
+                return
+            }
+            if (pauseSignal) {
+                onSortAnimationPaused && onSortAnimationPaused()
                 return
             }
             draw(array)
@@ -189,7 +214,7 @@ define((require) => {
                 wait(() => {
                     // value is a new generator
                     sortGenManager.push(gen)
-                    // start
+                    // start the generator in stack.
                     sortGenManager.next()
                 })
             })
@@ -204,15 +229,36 @@ define((require) => {
         isRunning = true
     }
 
+    const resumeSortAnimation = () => {
+        if (isPaused) {
+            sortGenManager.next()
+            isPaused = false
+        }
+    }
+
     const stopSortAnimation = (callback) => {
-        if (isRunning) {
-            stopSignal = true
-            onSortAnimationStopped = () => {
+        if (!isRunning) return
+        stopSignal = true
+        onSortAnimationStopped = () => {
+            stopSignal = false
+            isRunning = false
+            wait(() => {
+                sortGenManager.clear()
                 callback && callback()
                 onSortAnimationStopped = null
-            }
-        } else {
+            })
+        }
+    }
+
+    const pauseSortAnimation = (callback) => {
+        if (!isRunning) return
+        if (isPaused) return
+        pauseSignal = true
+        onSortAnimationPaused = () => {
+            isPaused = true
+            pauseSignal = false
             callback && callback()
+            onSortAnimationPaused = null
         }
     }
 
