@@ -20,6 +20,7 @@ define((require) => {
     let isPaused = false
     let onSortAnimationStopped = null
     let onSortAnimationPaused = null
+    let lastTimestamp = 0
     const sortKeys = [
         'bubble', 'insert', 'select', 'heap', 'quick', 'merge'
     ]
@@ -167,7 +168,10 @@ define((require) => {
                 if (this.size === 0) {
                     // normally stopped.
                     isRunning = false
-                    alert('Over')
+                    const duration = Date.now() - lastTimestamp
+                    ctx.font = '20px Georgia'
+                    ctx.fillStyle = 'green'
+                    ctx.fillText(`Done! Takes ${duration}ms`, 10, 30)
                 } else {
                     this.next()
                 }
@@ -227,6 +231,7 @@ define((require) => {
         if (isRunning) return
         sortGenManager.next()
         isRunning = true
+        lastTimestamp = Date.now()
     }
 
     const resumeSortAnimation = () => {
