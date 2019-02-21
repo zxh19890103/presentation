@@ -1,5 +1,5 @@
 define(() => {
-    const array = new Array(170).fill(0).map(i => {
+    const array = new Array(10).fill(0).map(i => {
         return Math.floor(Math.random() * 300)
     })
     const arrayColors = array.map(i => {

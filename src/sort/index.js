@@ -4,11 +4,14 @@ define(require => {
     const quick = require('./quick')
     const select = require('./select')
     const insert = require('./insert')
+    const merge = require('./merge')
+
     return {
         bubble,
         heap,
         quick,
         select,
-        insert
+        insert,
+        merge
     }
 })

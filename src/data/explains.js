@@ -32,6 +32,10 @@ Online; i.e., can sort a list as it receives it
         quick: {
             title: 'Quick Sort',
             desc: `Quicksort (sometimes called partition-exchange sort) is an O(n log n) efficient sorting algorithm, serving as a systematic method for placing the elements of a random access file or an array in order. Developed by British computer scientist Tony Hoare in 1959[1] and published in 1961,[2] it is still a commonly used algorithm for sorting. When implemented well, it can be about two or three times faster than its main competitors, merge sort and heapsort.`
+        },
+        merge: {
+            title: 'Merge Sort',
+            desc: `In computer science, merge sort (also commonly spelled mergesort) is an efficient, general-purpose, comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the order of equal elements is the same in the input and output. Merge sort is a divide and conquer algorithm that was invented by John von Neumann in 1945.[2] A detailed description and analysis of bottom-up mergesort appeared in a report by Goldstine and von Neumann as early as 1948.`
         }
     }
 })

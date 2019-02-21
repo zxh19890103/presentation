@@ -21,7 +21,7 @@ define((require) => {
     let onSortAnimationStopped = null
     let onSortAnimationPaused = null
     const sortKeys = [
-        'bubble', 'insert', 'select', 'heap', 'quick'
+        'bubble', 'insert', 'select', 'heap', 'quick', 'merge'
     ]
 
     const init = () => {
@@ -29,7 +29,7 @@ define((require) => {
         canvas = document.createElement('canvas')
         canvas.width = Math.floor(WIDTH * ratio)
         canvas.height = Math.floor(HEIGHT * ratio)
-        canvas.style.border = '1px solid #DDD'
+        canvas.style.border = '4px solid #bcd'
         canvas.style.margin = '12px'
         canvas.style.width = WIDTH + 'px'
         canvas.style.height = HEIGHT + 'px'

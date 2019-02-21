@@ -23,6 +23,13 @@ define(() => {
                 k = Math.floor(Math.random() * arr.length)
                 util.swap(arr, k, j)
             }
+        },
+        compare: (arr, i, j) => {
+            const a = arr[i].val
+            const b = arr[j].val
+            if (a === b) return 0
+            else if (a > b) return 1
+            else return -1
         }
     }
     return util
