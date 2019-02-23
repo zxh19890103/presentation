@@ -30,6 +30,11 @@ define(() => {
             if (a === b) return 0
             else if (a > b) return 1
             else return -1
+        },
+        gt: (a, b) => {
+            if (a === undefined) return true
+            else if (b === undefined) return false
+            return a.val > b.val
         }
     }
     return util

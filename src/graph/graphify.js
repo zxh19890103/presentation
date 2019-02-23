@@ -22,7 +22,7 @@ define((require) => {
     let onSortAnimationPaused = null
     let lastTimestamp = 0
     const sortKeys = [
-        'bubble', 'insert', 'select', 'heap', 'quick', 'merge'
+        'bubble', 'insert', 'select', 'heap', 'quick', 'merge', 'shell'
     ]
 
     const init = () => {
@@ -45,6 +45,7 @@ define((require) => {
             const button = createButton(
                 explains[key].title.toUpperCase(),
                 () => {
+                    if (isRunning && currentKey === key) return
                     const handle = () => {
                         currentKey = key
                         playSortAnimation(key)
@@ -67,7 +68,9 @@ define((require) => {
             const handle = () => {
                 util.disOrder(array)
                 draw(array)
-                currentKey && playSortAnimation(currentKey)
+                if (isRunning && currentKey) {
+                    playSortAnimation(currentKey)
+                }
             }
             if (isRunning) {
                 stopSortAnimation(handle)
@@ -126,6 +129,12 @@ define((require) => {
         ctx.fillRect(x, y, BAR_WIDTH, element.val)
     }
 
+    const drawText = (ctx, text) => {
+        ctx.font = '20px Georgia'
+        ctx.fillStyle = 'green'
+        ctx.fillText(text, 10, 30)
+    }
+
     const draw = (array) => {
         ctx.clearRect(0, 0, WIDTH, HEIGHT)
         for (let i = 0; i < array.length; i ++) {
@@ -150,7 +159,7 @@ define((require) => {
         size: 0,
         pop() {
             this.size --
-            this.stack.pop()
+            return this.stack.pop()
         },
         pick() {
             // console.log(this.size)
@@ -162,16 +171,16 @@ define((require) => {
         },
         next() {
             const first = this.pick()
-            const { done } = first.next()
+            const { done, value } = first.next()
             if (done) {
-                this.pop()
+                const g = this.pop()
+                g.$return = value
                 if (this.size === 0) {
                     // normally stopped.
                     isRunning = false
                     const duration = Date.now() - lastTimestamp
-                    ctx.font = '20px Georgia'
-                    ctx.fillStyle = 'green'
-                    ctx.fillText(`Done! Takes ${duration}ms`, 10, 30)
+                    draw(value || array)
+                    drawText(ctx, `Done! Takes ${duration}ms`)
                 } else {
                     this.next()
                 }
@@ -191,7 +200,7 @@ define((require) => {
      * 
      * @param {*} key 
      */
-    const playSortAnimation = (key) => {        
+    const playSortAnimation = (key) => {
         const sorter = sortUtil[key]
         const gen = sorter.sort(array)
         sortGenManager.push(gen)
@@ -199,7 +208,7 @@ define((require) => {
         const { title, desc } = explains[key]
         h4.innerText = title
         p.innerText = desc
-        sorter.onSwap(() => {
+        sorter.onSwap((_array) => {
             if (stopSignal) {
                 onSortAnimationStopped && onSortAnimationStopped()
                 return
@@ -208,7 +217,8 @@ define((require) => {
                 onSortAnimationPaused && onSortAnimationPaused()
                 return
             }
-            draw(array)
+            draw(_array || array)
+            drawText(ctx, 'Sorting...')
             wait(() => {
                 sortGenManager.next()
             })

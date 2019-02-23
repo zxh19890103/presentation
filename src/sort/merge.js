@@ -1,36 +1,62 @@
 define((require) => {
+    /**
+     * 3 steps
+     * 1.  
+     * 2. 
+     * 3. 
+     */
 
     const Util = require('../util/index')
 
     let onSwap = null
     let onDeep = null
 
-    const merge = function* (arr, from, end) {
-        // one from ~ middle
-        // two middle + 1 ~ end
-        if (from === end) return
-        if (end - from === 1) {
-            if (Util.compare(arr, from, end) === 1) {
-                Util.swap(arr, from, end)
-                onSwap && onSwap()
-                yield
-            }
-            return
+    const mergeSort = function* (arr, i) {
+        const L = arr.length
+        if (L === 1) {
+            onSwap(arr)
+            yield
+            return arr
         }
-        const middle = Math.floor((from + end) / 2)
-        const g0 = merge(arr, from, middle)
-        onDeep && onDeep(g0)
+        const middle = Math.floor(L / 2)
+        const g1 = mergeSort(arr.slice(0, middle), i)
+        onDeep(g1)
+        // arr1 is the return value of g1
         yield
-        const g1= merge(arr, middle + 1, end)
-        onDeep && onDeep(g1)
+        const g2 = mergeSort(arr.slice(middle, L), middle)
+        onDeep(g2)
+        // arr2 is the return value of g1
         yield
+        const arr3 = merge(g1.$return, g2.$return)
+        onSwap(arr3)
+        yield
+        return arr3
+    }
+
+    const merge = function (arr1, arr2)  {
+        const size1 = arr1.length
+        const size2 = arr2.length
+        const newArray = new Array(size1 + size2)
+        let i = 0, j = 0, k = 0
+        while (i < size1 || j < size2) {
+            const r = Util.gt(arr1[i], arr2[j])
+            if (r) {
+                newArray[k] = arr2[j]
+                j ++
+            } else {
+                newArray[k] = arr1[i]
+                i ++
+            }
+            k ++
+        }
+        return newArray
     }
 
     const sort = function* (arr) {
-        const L = arr.length
-        const g = merge(arr, 0, L -1)
-        onDeep && onDeep(g)
+        const g = mergeSort(arr, 0)
+        onDeep(g)
         yield
+        return g.$return
     }
 
     return {
@@ -40,8 +66,6 @@ define((require) => {
         },
         onDeep: (func) => {
             onDeep = func
-        },
-        getOutput: () => {
         }
     }
 })

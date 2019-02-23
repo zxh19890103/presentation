@@ -4,10 +4,11 @@ define((require) => {
     
     const sort = function* (arr) {
         // handle the Nth element
+        let value = null
         for (let i = 1, max = arr.length; i < max; i ++) {
-            const element = arr[i]
+            value = arr[i].val
             for (let j = 0; j < i; j ++) {
-                if (element.val < arr[j].val) {
+                if (value < arr[j].val) {
                     swap(arr, i, j)
                     onSwap && onSwap()
                     yield

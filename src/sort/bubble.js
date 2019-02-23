@@ -22,7 +22,7 @@ define((require) => {
                 b = arr[i + 1]
                 if (a.val > b.val) {
                     swap(arr, i, i + 1)
-                    onSwap && onSwap(i, i + 1)
+                    onSwap()
                     yield
                 }
             }
