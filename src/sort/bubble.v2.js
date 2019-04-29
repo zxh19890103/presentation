@@ -43,6 +43,19 @@ define((require) => {
                 data: graphdata,
                 time: time
             }
-        }
+        },
+        title: '冒泡排序',
+        desc: `<pre>
+冒泡排序是最直观的排序算法。
+下面是其要义。
+Init:
+    S = Length
+Loop:
+    遍历 R[0, S) , 将最大的那个元素摞到最后
+    如何“摞” 依次比较相邻元素，前者大则交换
+    S = S -1
+Util:
+    S == 1
+</pre>`
     }
 })

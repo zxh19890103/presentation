@@ -54,6 +54,28 @@ define((require) => {
                 data: graphdata,
                 time: time
             }
-        }
+        },
+        title: '快速排序',
+        desc: `<pre>
+快速排序是一种交换排序，
+下面是其要义。
+Init:
+    S = Length
+    Sub: **
+        Inputs: I, J
+        Init:
+            P = I
+        If: I <= J
+            返回
+        Do: 
+            通过交换操作，将序列分为两部分 R[I, P) 和 R(P, J)，满足
+            Every(R[I, P)) <= V(P)，Every(R(P, J)) > V(P)
+            <em>注意：P 发生的变化</em>
+            针对 R[I, P) 执行 Sub(I, P - 1)
+            针对 R(P, J) 执行 Sub(P + 1, J)
+    **
+Do:
+    执行 Sub(0, S - 1)
+</pre>`
     }
 })

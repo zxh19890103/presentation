@@ -51,6 +51,11 @@ define(require => {
                 data: graphdata,
                 time: time
             }
-        }
+        },
+        title: '希尔排序',
+        desc: `
+            希尔排序是插入排序的改造版。
+            其要义就是：
+        `
     }
 })

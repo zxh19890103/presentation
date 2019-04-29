@@ -40,6 +40,20 @@ define((require) => {
                 data: graphdata,
                 time: time
             }
-        }
+        },
+        title: '选择排序',
+        desc: `<pre>
+选择排序是比较直观的排序算法。
+下面是其要义。
+Init:
+    N = 0
+    S = Length
+Loop:
+    从 R(N, S) 找到最小的那个元素 M，与 N 互换。
+    怎么找？遍历 R[N, S) ，用冒泡法查找
+    N = N + 1
+Util:
+    N == Length
+</pre>`
     }
 })

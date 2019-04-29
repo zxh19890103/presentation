@@ -192,7 +192,7 @@ define((require) => {
     }
 
     const wait = () => {
-        if (N > 0) {
+        if (N > 2) {
             N = 0
             walk()
             return
@@ -256,9 +256,11 @@ define((require) => {
         const sorter = sortUtil[key]
         sorter.sort(array)
         const { h4, p } = text
-        const { title, desc } = explains[key]
+        let { title, desc } = explains[key]
+        if (sorter.title) title = sorter.title
+        if (sorter.desc) desc = sorter.desc
         h4.innerText = title
-        p.innerText = desc
+        p.innerHTML = desc
         const r = sorter.read()
         dataGen = toGen(r.data)
         time = r.time
