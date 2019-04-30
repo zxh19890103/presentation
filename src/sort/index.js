@@ -6,6 +6,7 @@ define(require => {
     const insert = require('./insert.v2')
     const merge = require('./merge.v2')
     const shell = require('./shell.v2')
+    const count = require('./count.v2')
     
     return {
         bubble,
@@ -14,6 +15,7 @@ define(require => {
         select,
         insert,
         merge,
-        shell
+        shell,
+        count
     }
 })

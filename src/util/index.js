@@ -32,9 +32,21 @@ define(() => {
             else return -1
         },
         gt: (a, b) => {
-            if (a === undefined) return true
-            else if (b === undefined) return false
+            if (b === undefined) return true
+            else if (a === undefined) return false
             return a.val > b.val
+        },
+        lt: (a, b) => {
+            return a.val < b.val
+        },
+        veq: (a, n) => {
+            return a.val === n
+        },
+        vgt: (a, n) => {
+            return a.val > n
+        },
+        vlt: (a, n) => {
+            return a.val < n
         }
     }
     return util

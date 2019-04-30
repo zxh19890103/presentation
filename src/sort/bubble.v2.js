@@ -1,6 +1,5 @@
 define((require) => {
     const { swap } = require('../util/index')
-    let onSwap = null
     /**
      * Bubble sort
      * set size = MAX

@@ -2,10 +2,12 @@ define((require) => {
     const array = require('../data/arr')
     const explains = require('../data/explains')
     const sortUtil = require('../sort/index')
+    const searchUtil = require('../search/index')
     const util = require('../util/index')
+    const autorun = require('../util/autorun')
 
     const SIZE = array.length
-    let WIDTH = window.innerWidth
+    let WIDTH = window.innerWidth - 24
     const HEIGHT = 340
     const BAR_WIDTH = Math.floor(WIDTH / SIZE)
     WIDTH = BAR_WIDTH * SIZE
@@ -22,9 +24,7 @@ define((require) => {
     let isPaused = false
     let onSortAnimationStopped = null
     let onSortAnimationPaused = null
-    const sortKeys = [
-        'bubble', 'insert', 'select', 'heap', 'quick', 'merge', 'shell'
-    ]
+    const sortKeys = Object.keys(explains)
     const originalArray = array.map(i => i)
 
     const init = () => {
@@ -40,7 +40,7 @@ define((require) => {
         ctx.scale(ratio, ratio)
         document.body.appendChild(canvas)
 
-        // buttons
+        // buttons for sort
         const buttonsWrap = document.createElement('div')
         buttonsWrap.style.margin = '12px'
         sortKeys.forEach(key => {
@@ -65,6 +65,36 @@ define((require) => {
             buttonsWrap.appendChild(button)
         })
         document.body.appendChild(buttonsWrap)
+
+        // buttons for search
+        const buttonsWrapForSe = document.createElement('div')
+        buttonsWrapForSe.style.margin = '12px'
+        Object.keys(searchUtil).forEach(key => {
+            const button = createButton(
+                `${key} search`.toUpperCase(),
+                () => {
+                    if (isRunning) return
+                    const se = searchUtil[key]
+                    const target = 89
+                    const f = se.search(array, 89)
+                    const r = se.read()
+                    autorun(r.data).per(15).do((prev, current) => {
+                        drawText(ctx, `Search for ${target}, but it is ${array[current].val}`)
+                        drawDownArrow(array, prev, current)                       
+                    }).end(() => {
+                        if (f > -1)
+                            drawText(ctx, `Yeah we found it on ${f}`)
+                        else
+                            drawText(ctx, `Ops for ${target}`)
+                    }).run()
+                },
+                {
+                    id: `button_se_${key}`
+                }
+            )
+            buttonsWrapForSe.appendChild(button)
+        })
+        document.body.appendChild(buttonsWrapForSe)
 
         // constrol
         const ctrlsWrap = document.createElement('div')
@@ -142,9 +172,33 @@ define((require) => {
         return button
     }
 
-    const drawElement = (ctx, array, i) => {
+    const  drawDownArrow = (array, i, j)  => {
+        // erase the R[i]
+        // draw the R[j]
+        if (i !== null) {
+            ctx.clearRect(
+                i * BAR_WIDTH,
+                HEIGHT - array[i].val - 10, BAR_WIDTH, 10)
+        }
+        const element = array[j]
+        const x = j * BAR_WIDTH
+        const y = HEIGHT - element.val - 10
+        ctx.fillStyle = 'black'
+        ctx.beginPath()
+        ctx.moveTo(x, y)
+        ctx.lineTo(x + Math.ceil(BAR_WIDTH / 2), y + 5)
+        ctx.lineTo(x + BAR_WIDTH, y)
+        ctx.closePath()
+        ctx.fill()
+
+        ctx.font = '8px Georgia'
+        ctx.fillStyle = 'black'
+        ctx.fillText(element.val, x, y - 10)
+    }
+
+    const drawElement = (ctx, array, i, offset = 0) => {
         const element = array[i]
-        const x = i * BAR_WIDTH
+        const x = (i + offset) * BAR_WIDTH
         const y = HEIGHT - element.val
         ctx.fillStyle = element.color
         ctx.fillRect(x, y, BAR_WIDTH, element.val)
@@ -179,6 +233,13 @@ define((require) => {
         }
     }
 
+    const drawPartial = (array, offset) => {
+        ctx.clearRect(BAR_WIDTH * offset, 0, BAR_WIDTH * (array.length), HEIGHT)
+        for (let i = 0, l = array.length; i < l; i ++) {
+            drawElement(ctx, array, i, offset)
+        }
+    }
+
     let dataGen = null // 由数据转换成的生成器
     let currentReturn = null // 当前生成器返回值
     let time = 0 // 程序运行时间 ms
@@ -192,7 +253,7 @@ define((require) => {
     }
 
     const wait = () => {
-        if (N > 2) {
+        if (N > 1) {
             N = 0
             walk()
             return
@@ -219,8 +280,17 @@ define((require) => {
 
     const doWork = () => {
         const { value } = currentReturn
-        drawSwapElement(ctx, array, value[0], value[1])
-        drawText(ctx, `Swap... ${value.join(',')}`)
+        if (value.offset !== undefined) {
+            const { partial, offset } = value
+            drawPartial(partial, offset)
+            partial.forEach((e, i) => {
+                array[i + offset] = e
+            })
+            drawText(ctx, `Refresh`)
+        } else {
+            drawSwapElement(ctx, array, value[0], value[1])
+            drawText(ctx, `Swap... ${value.join(',')}`)
+        }
 
         if (stopSignal) {
             onSortAnimationStopped && onSortAnimationStopped()
@@ -235,7 +305,10 @@ define((require) => {
 
     const doEnd = () => {
         if (sortedArray) {
-            draw(sortedArray)
+            sortedArray.forEach((v, i) => {
+                array[i] = v
+            })
+            draw(array)
         }
         isRunning = false
         if (currentKey) {

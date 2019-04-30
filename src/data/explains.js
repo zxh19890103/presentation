@@ -40,6 +40,18 @@ Online; i.e., can sort a list as it receives it
         shell: {
             title: 'Shell Sort',
             desc: `Shellsort, also known as Shell sort or Shell's method, is an in-place comparison sort. It can be seen as either a generalization of sorting by exchange (bubble sort) or sorting by insertion (insertion sort).[3] The method starts by sorting pairs of elements far apart from each other, then progressively reducing the gap between elements to be compared. Starting with far apart elements, it can move some out-of-place elements into position faster than a simple nearest neighbor exchange. Donald Shell published the first version of this sort in 1959.[4][5] The running time of Shellsort is heavily dependent on the gap sequence it uses. For many practical variants, determining their time complexity remains an open problem.`
+        },
+        count: {
+            title: 'Count Sort',
+            desc: `
+该算法于1954年由 Harold H. Seward 提出
+它是一个不需要比较的，类似于桶排序的线性时间排序算法。该算法是对已知数量范围的数组进行排序。其时间复杂度为O(n)，适用于小范围集合的排序。计数排序是用来排序0到100之间的数字的最 
+好的算法。比如100万学生参加高考，我们想对这100万学生的数学成绩（假设分数为0到100）做个排序。 
+基本思想： 
+对于给定的输入序列中的每一个元素x，确定该序列中值小于x的元素的个数 。
+一旦有了这个信息，就可以将x直接存放到最终的输出序列的正确位置上。
+它创建一个长度为这个数据范围的数组C，C中每个元素记录要排序数组中对应记录的出现个数
+            `
         }
     }
 })

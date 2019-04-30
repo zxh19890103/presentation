@@ -6,47 +6,88 @@ define((require) => {
      * 3. 
      */
 
-    const Util = require('../util/index')
+    const { lt, gt, swap } = require('../util/index')
 
     let graphdata = null
     let time = 0
     let sortedArray = null
 
-    const mergeSort = function (arr) {
-        const L = arr.length
-        if (L === 1) {
-            return arr
-        }
-        const middle = Math.floor(L / 2)
-        const arr1 = mergeSort(arr.slice(0, middle))
-        const arr2 = mergeSort(arr.slice(middle, L))
-        const arr3 = merge(arr1, arr2)
-        return arr3
+    let _arr = null
+
+    // const mergeSort = function (arr) {
+    const mergeSort = function (start, end) {
+        // [start, end)
+        // const L = arr.length
+        // if (L === 1) {
+        //     return arr
+        // }
+        if (end - start < 2) return
+        const middle = start + Math.floor((end - start) / 2)
+        // const arr1 = mergeSort(arr.slice(0, middle))
+        // const arr2 = mergeSort(arr.slice(middle, L))
+        // const arr3 = merge(arr1, arr2)
+        mergeSort(start, middle)
+        mergeSort(middle, end)
+        merge(start, middle, end)
+        //         return arr3
     }
 
-    const merge = function (arr1, arr2)  {
-        const size1 = arr1.length
-        const size2 = arr2.length
-        const newArray = new Array(size1 + size2)
-        let i = 0, j = 0, k = 0
-        while (i < size1 || j < size2) {
-            const r = Util.gt(arr1[i], arr2[j])
+    const merge_d = function (start, middle, end) {
+        // keep in mind: R[start, middle) and R[middle, end) is in right order.
+        let k = start
+        let j = middle
+        let max = 1000 // +∞
+        while (k < end) {
+            max = _arr[k]
+            let p = j
+            while (p < end) {
+                if (lt(_arr[p], max)) {
+                    let m = p
+                    while (m > k) {
+                        swap(_arr, m, m - 1)
+                        graphdata.push([m, m -1])
+                        m --
+                    }
+                    p ++
+                    k += 1
+                } else {
+                    j = p
+                    break
+                }
+            }
+            // put R[j, p) into R[k, k + 1)
+            k ++
+        }
+    }
+
+    const merge = function (start, middle, end)  {
+        const newArray = new Array(end - start)
+        let i = start, j = middle, k = 0
+        while (i < middle || j < end) {
+            let r = false
+            if (i === middle) r = true
+            else if (j === end) r = false
+            else r = gt(_arr[i], _arr[j])
             if (r) {
-                newArray[k] = arr2[j]
+                newArray[k] = _arr[j]
                 j ++
             } else {
-                newArray[k] = arr1[i]
+                newArray[k] = _arr[i]
                 i ++
             }
             k ++
         }
-        return newArray
+        newArray.forEach((v, i) => {
+            _arr[start + i] = v
+        })
+        graphdata.push({ partial: newArray, offset: start })
     }
 
     const sort = function (originArr) {
         time = performance.now()
         graphdata = []
-        sortedArray = mergeSort(originArr)
+        _arr = originArr.map(i => i)
+        mergeSort(0, _arr.length)
         time = performance.now() - time
     }
 
@@ -56,7 +97,7 @@ define((require) => {
             return {
                 data: graphdata,
                 time: time,
-                sorted: sortedArray
+                // sorted: sortedArray
             }
         },
         title: '归并排序',
