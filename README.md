@@ -18,7 +18,7 @@ Generator (Convert an Array to generator.)
 
 运行地址：
 
-http://zhangxinghai.cn/algorithm/graph/index.html
+https://zxh19890103.github.io/Algorithm/src/graph/
 
 
 
