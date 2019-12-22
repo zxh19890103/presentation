@@ -1,4 +1,4 @@
-## Some sort and search algorithms popularly used
+## 一些常用的排序和查找算法的实现
 
 ### 项目的目的
 
@@ -28,7 +28,7 @@ Generator (Convert an Array to generator.)
 ```
 其次，增加了 “Restore” 功能按钮，用于还原到初始数据。
 
-### Sorting Algorithm
+### 排序算法
 
 1. 插入排序(✅)
 2. 希尔排序(✅)
@@ -41,7 +41,7 @@ Generator (Convert an Array to generator.)
 9. 桶排序(...)
 10. 基数排序(...)
 
-### Searching Algorithm
+### 查找算法
 
 1. 顺序查找(✅)
 2. 二分查找(✅)
