@@ -13,7 +13,6 @@ Graphic APIs of Canvas
 requestAnimationFrame
 performance.now
 Generator (Convert an Array to generator.)
-
 ```
 
 运行地址：
