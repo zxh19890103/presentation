@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Vertical-align</title>
+    <meta charset="utf8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../global.js"></script>
+    <script>
+        const __onStyleKeyChange__ = (el, key) => {
+            const spans = el.querySelector('span').querySelectorAll('span')
+            spans.forEach(span => {
+                span.style.verticalAlign = key
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <h2>详解 Vertical-align</h2>
+    <p class="tips">
+        无
+    </p>
+    <section>
+        <h3>Vertical-align</h3>
+        <div>
+            该属性定义<em><b>行内元素的基线</b></em>相对于<em><b>该元素所在行的基线</b></em>的垂直对齐。
+            允许指定负长度值和百分比值。这会使元素降低而不是升高。
+            在表单元格中，这个属性会设置单元格框中的单元格内容的对齐方式。
+            <br>
+            该属性提供以下 8 个枚举值、2 个度量值：
+            <ul>
+                <li>baseline</li>
+                <li>sub</li>
+                <li>super</li>
+                <li>top</li>
+                <li>text-top</li>
+                <li>middle</li>
+                <li>bottom</li>
+                <li>text-bottom</li>
+                <li>length</li>
+                <li>%</li>
+            </ul>
+            下边一一演示其效果：
+            <div class="case-controls">
+                <a href="javascript:void(0);" data-key="baseline" data-text="默认。元素放置在父元素的基线上" onclick="switchTab(event)">baseline</a>
+                <a href="javascript:void(0);" data-key="sub" data-text="垂直对齐文本的下标" onclick="switchTab(event)">sub</a>
+                <a href="javascript:void(0);" data-key="super" data-text="垂直对齐文本的上标" onclick="switchTab(event)">super</a>
+                <a href="javascript:void(0);" data-key="top" data-text="把元素的顶端与行中最高元素的顶端对齐" onclick="switchTab(event)">top</a>
+                <a href="javascript:void(0);" data-key="text-top" data-text="把元素的顶端与父元素字体的顶端对齐" onclick="switchTab(event)">text-top</a>
+                <a href="javascript:void(0);" data-key="middle" data-text="把此元素放置在父元素的中部" onclick="switchTab(event)">middle</a>
+                <a href="javascript:void(0);" data-key="bottom" data-text="把元素的底端与行中最低的元素的底端对齐" onclick="switchTab(event)">bottom</a>
+                <a href="javascript:void(0);" data-key="text-bottom" data-text="把元素的底端与父元素字体的底端对齐" onclick="switchTab(event)">text-bottom</a>
+            </div>
+            <div class="case" id="ACFFRDRVMIJN">
+                <h4>baseline 默认，元素放置在父元素的基线上</h4>
+                <div style="display: inline">
+                    <span style="border: 1px dashed #778">
+                        这是一行文字，中间<i style="border: 1px dotted red; font-size: 10px;">有</i>个小号<span style="font-size: 12px;border: 1px dotted red">文字</span>，
+                        并以一个大号文字结<span style="font-size: 30px;border: 1px dotted red">尾</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+html {
+    font-size: 16px;
+}
+body {
+    width: 1024px;
+    margin: 1em auto;
+}
+
+h2 {
+    margin: 1em 0;
+    text-align: center;
+}
+
+.tips {
+    position: relative;
+    padding: 0 0 0 3em;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.tips:before {
+    content: 'Tips：';
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #456;
+}
+
+section {
+    padding: 1em;
+    margin: 0 0 1em 0;
+    border: 1px solid #DDD;
+    background: #fdfdf6;
+    border-radius: 4px;
+}
+
+section h3 {
+    margin: 0 0 6px 0;
+    text-transform: uppercase;
+}
+
+ul {
+    padding: 0 0 0 1em;
+    list-style-position: inside;
+    list-style-type: square;
+}
+
+ul  label {
+    color: #2a4a6c;
+    font-weight: bold;
+}
+
+.case {
+    margin: 1rem 0 0 0;
+    padding: 0 1rem 1rem 1rem;
+    border-left: 2px solid darkcyan;
+    background: #efefef;
+    color: #456;
+    overflow: hidden;
+}
+
+.case h4 {
+    margin: 0 -1rem .4rem -1rem;
+    padding: .5rem 1rem;
+    background: wheat;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.ws-token {
+    color: coral;
+}
+
+.with-border {
+    padding: 2px;
+    border: 1px dashed #444;
+}
+
+.grid {
+    display: grid;
+    display: -moz-grid;
+    display: -ms-grid;
+    grid-template-rows: auto;
+    grid-template-columns: 100px repeat(4, 1fr);   
+    /* grid-gap: 2px 5px;*/
+    border-collapse: collapse;
+}
+
+.grid > * {
+    padding: 6px 8px;
+    border-right: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    font-size: 14px;
+    color: #444;
+}
+
+.grid > *:nth-child(5n) {
+    border-right: none;
+}
+
+.grid__header {
+    color: #2a4a6c;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.grid__header em {
+    color: #999;
+}

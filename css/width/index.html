@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Client width / scroll width / offset width / getBoundingClientRect</title>
+    <meta charset="utf8">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script>
+        const DOM_ID = 'DNFNKMFDNFJDF'
+        const BAR_W = 20
+        const rulers = []
+        rulers.push = function (item) {
+            Array.prototype.push.call(rulers, item)
+            rulers_is_empty = false
+        }
+        let rulers_is_empty = true
+
+        const clearRulers = () => {
+            let timer = null
+            let isInvoking = false
+            return () => {
+                if (isInvoking || rulers_is_empty) return
+                console.log('call handler')
+                clearTimeout(timer)
+                timer = setTimeout(() => {
+                    console.log('invoke callback')
+                    isInvoking = true
+                    let r = null
+                    while(r = rulers.pop()) {
+                        document.body.removeChild(r)
+                    }
+                    rulers_is_empty = true
+                    isInvoking = false
+                }, 300)
+            }
+        }
+
+        window.onresize = clearRulers()
+        window.onscroll = clearRulers()
+
+        function getScrollXY() {
+            const ret = { x: 0, y: 0 }
+            ret.y = window.scrollY || window.pageYOffset
+            ret.x = window.scrollX || window.pageXOffset
+            return ret
+        }
+
+        function showRuler () {
+            const div = document.querySelector(`#${DOM_ID}`)
+            const rect = div.getBoundingClientRect()
+            const keys = ['clientWidth', 'scrollWidth', 'offsetWidth']
+            let y = rect.y + 5
+            let x = rect.x
+            keys.forEach(key => {
+                const w = div[key]
+                const ruler = createRuler({
+                    x0: x,
+                    y0: y,
+                    x1: x + w,
+                    y1: y,
+                    text: key + ': ' + w
+                })
+                document.body.appendChild(ruler)
+                y += 30
+            })
+        }
+
+        function createRuler({ x0, y0, x1, y1, text }) {
+            const w = (x1 - x0) || 1
+            const h = (y1 - y0) || 1
+            const bar = document.createElement('div')
+            const sxy = getScrollXY()
+            const style = `
+                position: absolute;
+                ${ w === 1 ? 'height: ' + h + 'px; width: ' + BAR_W + 'px;' : 'text-align: center; width: ' + w + 'px; height: '+ BAR_W +'px; line-height: ' + BAR_W + 'px;' }
+                top: ${y0 + sxy.y}px;
+                left: ${x0 + sxy.x}px;
+                background: rgba(255, 0, 0, .6);
+                color: #fff;
+                box-sizing: border-box;
+                `
+            bar.style = style
+            const t = document.createElement('span')
+            if (w === 1) {
+                t.style = `
+                    display: inline-block;
+                    height: ${BAR_W}px;
+                    line-height: ${BAR_W}px;
+                    transform: translate(-50%, ${Math.floor((h - BAR_W) / 2)}px) translate(${BAR_W / 2}px) rotate(90deg);
+                    word-break: keep-all;
+                    white-space: pre;
+                    `
+            }
+            t.className = 'ruler-bar'
+            t.innerText = text
+            bar.appendChild(t)
+            rulers.push(bar)
+            return bar
+        }
+
+        function showRect() {
+            const div = document.querySelector('#sfmkdmjffngj')
+            const rect = div.getBoundingClientRect()
+            const { x, y, width, height, top, bottom, left, right } = rect
+            // const expr = `x: ${x}, y: ${y}, width: ${width}, height: ${height}, top: ${top}, bottom: ${bottom}, left: ${left}, right: ${right}`
+            const barTop = createRuler({ x0: x, y0: 0, x1: x, y1: y, text: 'top: ' + Math.floor(top) })
+            const barLeft = createRuler({ x0: 0, y0: y, x1: x, y1: y, text: 'left: ' + Math.floor(left) })
+            const barBottom = createRuler({ x0: right, y0: 0, x1: right, y1: bottom, text: 'bottom: ' + Math.floor(bottom) })
+            const barRight = createRuler({ x0: 0, y0: bottom, x1: right, y1: bottom, text: 'right: ' + Math.floor(bottom) })
+            document.body.append(barTop, barLeft, barBottom, barRight)
+        }
+    </script>
+</head>
+
+<body>
+    <h2>详解 clientWidth / scrollWidth / offsetWidth / getBoundingClientRect</h2>
+    <p class="tips">
+        无
+    </p>
+    <section>
+        <h3>clientWidth / scrollWidth / offsetWidth</h3>
+        <div class="case">
+            <h4>
+                 <ul>
+                    <li>
+                        clientWidth 是DOM元素节点的属性，它反映的是该元素可见区域的宽度，不包括滚动条宽度、边线宽度，单位是像素。
+                    </li>
+                    <li>
+                        scrollWidth 是DOM元素节点的属性，它反映的是该元素内容区域的宽度，不包括滚动条宽度、边线宽度，单位是像素。
+                    </li>
+                    <li>
+                        offsetWidth 是DOM元素节点的属性，它反映的是该元素可见区域的宽度，包括滚动条宽度、边线宽度，单位是像素。
+                    </li>
+                 </ul>
+            </h4>
+            下边这个 div 的宽度为 300px，里面包含一个div，其宽度为 330px;
+            <div id="DNFNKMFDNFJDF" style="width: 300px; height: 120px; overflow: scroll;border: 1px solid red;">
+                <div style="width: 330px; color: #ddd;">我们在这里要放很多的文字；width 330px;</div>
+            </div>
+            <a href="javascript:;" onclick="showRuler()">Ruler</a>
+        </div>
+    </section>
+    <section>
+        <h3>getBoundingClientRect</h3>
+        getBoundingClientRect 是元素节点的方法，它返回的是元素的宽高和相对<b>视窗</b>的位置;
+        <br>
+        返回的结构为 DOMRect: { x, y, top, left, bottom, right, width, height }
+        <br>
+        具体可见下面这个图：
+        <div id="sfmkdmjffngj" style="width: 300px; height: auto; border: 1px dashed red">
+            <img style="width: 100%;" src="/assets/rect.png">
+        </div>
+        <a href="javascript:;" onclick="showRect()">Rect</a>
+    </section>
+    <section>
+        <h3>offsetLeft / offsetTop / scrollLeft / scrollTop / clientLeft / clientTop</h3>
+        <div>
+            <ul>
+                <li>
+                    <em>offsetLeft</em>
+                    元素左上角相对于父节点的<b>左边界</b>偏移的像素值
+                </li>
+                <li>
+                    <em>offsetTop</em>
+                    元素左上角相对于父节点的<b>上边界</b>偏移的像素值
+                </li>
+                <li>
+                    <em>scrollLeft</em>
+                    读取或设置元素滚动条到元素左边的距离
+                </li>
+                <li>
+                    <em>scrollTop</em>
+                    获取或设置一个元素的内容垂直滚动的像素数
+                </li>
+                <li>
+                    <em>clientLeft</em>
+                    元素左边框宽度
+                </li>
+                <li>
+                    <em>clientTop</em>
+                    元素顶边框宽度
+                </li>
+            </ul>
+        </div>
+    </section>
+</body>
+
+</html>
