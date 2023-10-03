@@ -19,11 +19,12 @@ Explains some algorithm with animations.
 ## Solar system (webgl)
 
 Explains the solar system by:
+
     - Planets
     - Comets
     - Moons
     - Orbits
-    - Real moving.
+    - Real moving
 
 [https://solar.zhangxinghai.cn](https://solar.zhangxinghai.cn)
 
