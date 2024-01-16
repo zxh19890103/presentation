@@ -52,13 +52,13 @@ Explains the solar system by:
 
 Me.
 
-[https://www.zhangxinghai.cn/about.html](https://www.zhangxinghai.cn/about-en.html)
+[https://zhangxinghai.cn/about](https://www.zhangxinghai.cn/about-en)
 
 ---
 
 ## Blog (personal thoughts & tech)
 
-[https://www.zhangxinghai.cn](https://www.zhangxinghai.cn)
+[https://zhangxinghai.cn](https://www.zhangxinghai.cn)
 
 ---
 
