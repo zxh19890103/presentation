@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## Welcome
+## Welcome!
 
 This is where I list my links and my main works these years.
 
@@ -22,7 +22,7 @@ A 3d/2d Js lib for rendering a virtual warehouse.
 
 Explains some weird css properties.
 
-[https://me.zhangxinghai.cn/css](https://me.zhangxinghai.cn/css)
+[https://me.zhangxinghai.cn/css](/css)
 
 ---
 
@@ -30,7 +30,7 @@ Explains some weird css properties.
 
 Explains some algorithm with animations.
 
-[https://me.zhangxinghai.cn/algorithm](https://me.zhangxinghai.cn/algorithm)
+[https://me.zhangxinghai.cn/algorithm](/algorithm)
 
 ---
 
