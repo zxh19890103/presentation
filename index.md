@@ -65,3 +65,7 @@ Me.
 ## Youtube (log travel & anything.)
 
 [singhi](https://www.youtube.com/channel/UCOvEajUHgigi_lO3wKgpJvw)
+
+## The Long Loneliness (project)
+
+[the long loneliness](https://www.longloneliness.com)
