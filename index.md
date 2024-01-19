@@ -12,7 +12,7 @@ Thanks for your visit.
 
 ---
 
-## Wik Doc
+## Wik
 
 A 3d/2d Javascript library for rendering a virtual warehouse, quickly.
 
@@ -40,11 +40,11 @@ Explains some algorithm with animations.
 
 Explains the solar system by:
 
-    - Planets
-    - Comets
-    - Moons
-    - Orbits
-    - Real moving
+1. Planets
+2. Comets
+3. Moons
+4. Orbits
+5. Real moving
 
 [https://solar.zhangxinghai.cn](https://solar.zhangxinghai.cn)
 
@@ -74,7 +74,7 @@ Videos that record the travel life or anything else.
 
 ---
 
-## The Long Loneliness (project)
+## The Long Loneliness
 
 This is a small project to collect people's lonely feelings all around the world to help ease the pains.
 
