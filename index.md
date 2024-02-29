@@ -1,85 +1,43 @@
 ---
 layout: default
+title: Welcome
 ---
 
-## Welcome!
+<div style="height: 10rem;width: 100%">
+    {% include rainbow.html %}
+</div>
 
-This is where I list my links and my main works these years.
+## Hello,
+### I am singhi.
 
-Hello, I am singhi. I am living in China, an ordinary developer, a front-end coder. During the last 3 years, I've been digging in webgl, leaflet. I made a web framework to help develop a device monitor system and graphic eidtor. If you are interested in this field, we can connect to each other to share informations or even start some cooperations.
+This is where I list my links and my main works over years.
+
+Hello, I am singhi. I am living in China, an ordinary developer, a front-end coder.
+
+During the past 3 years, I've been digging in webgl, leaflet. I made <a href="https://wik.zhangxinghai.cn">a web framework</a> to help develop a device monitor system and graphic eidtor. If you are interested in this field, we can connect to each other to share information or even start some cooperations for new project!
 
 Thanks for your visit.
 
 ---
 
-## Wik
+- [This person](https://www.zhangxinghai.cn/about-en), some basic information of myself.
 
-A 3d/2d Javascript library for rendering a virtual warehouse, quickly.
+- [Wik](https://wik.zhangxinghai.cn), a 3d/2d Javascript library for rendering a virtual warehouse, quickly.
 
-[https://wik.zhangxinghai.cn/](https://wik.zhangxinghai.cn/)
+- [Time-Space Photos](https://www.tsphotos.art), a creative photos management & sharing platforms. It's under planing & developing.
 
----
+- [The Long Loneliness](https://www.longloneliness.com), a creative idea to  collect people's lonely feelings all around the world to help ease the pains.
 
-## Time-Space Photos
+- [Solar system (webgl)](https://solar.zhangxinghai.cn), a wonderful website to display the solar system with actual data from JPL.
 
-[https://www.tsphotos.art](https://www.tsphotos.art)
+- [Blogs](https://www.zhangxinghai.cn), a personal blogs website that records self daily thoughts with text, both negative or positive.
 
-## CSS
+- [Videos](https://www.youtube.com/channel/UCOvEajUHgigi_lO3wKgpJvw), videos on youtube that record the travel life or anything else.
 
-Explains some weird css properties.
+- [CSS Explain](/css), explains some weird css properties in a visual way.
 
-[https://me.zhangxinghai.cn/css](/css)
+- [Algorithm](/algorithm), explains some algorithm with animations.
 
----
+- [X](https://twitter.com/singhijohn89), just x.
 
-## Algorithm
 
-Explains some algorithm with animations.
-
-[https://me.zhangxinghai.cn/algorithm](/algorithm)
-
----
-
-## Solar system (webgl)
-
-Explains the solar system by:
-
-1. Planets
-2. Comets
-3. Moons
-4. Orbits
-5. Real moving
-
-[https://solar.zhangxinghai.cn](https://solar.zhangxinghai.cn)
-
----
-
-## About This Person
-
-Some basic information of myself.
-
-[https://zhangxinghai.cn/about](https://www.zhangxinghai.cn/about-en)
-
----
-
-## Blog
-
-Blogs that record self daily thoughts, both negative or positive.
-
-[https://zhangxinghai.cn](https://www.zhangxinghai.cn)
-
----
-
-## Youtube
-
-Videos that record the travel life or anything else.
-
-[singhi](https://www.youtube.com/channel/UCOvEajUHgigi_lO3wKgpJvw)
-
----
-
-## The Long Loneliness
-
-This is a small project to collect people's lonely feelings all around the world to help ease the pains.
-
-[the long loneliness](https://www.longloneliness.com)

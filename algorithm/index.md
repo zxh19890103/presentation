@@ -12,23 +12,22 @@ layout: default
 我觉得很有意思，并且对于形象化地理解一个排序算法的过程很有帮助。
 因此，自己在 Web 端实现了一下，主要涉及以下 API：
 
-```
-Graphic APIs of Canvas
-requestAnimationFrame
-performance.now
-Generator (Convert an Array to generator.)
-```
+
+- Graphic APIs of Canvas
+- requestAnimationFrame
+- performance.now
+- Generator (Convert an Array to generator.)
 
 运行地址：
 
-[https://me.zhangxinghai.cn/algorithm/graph](/algorithm/graph)
+[/algorithm/graph](/algorithm/graph)
 
 ### 最新更新
 
 实现了版本2（v2），对应的文件也都改为了 ***.v2.js。动画的生成方式改为：
-```
+
 先运行完 排序算法，并且统计运行时间，收集交换索引对，然后使用这两个数据来生成动画
-```
+
 其次，增加了 “Restore” 功能按钮，用于还原到初始数据。
 
 ### 排序算法

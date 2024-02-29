@@ -1,0 +1,17 @@
+title: singhi's presentations
+description: I am singhi. I am living in China, an ordinary developer, a front-end coder. During the past 3 years, I’ve been digging in webgl, leaflet. I made a web framework to help develop a device monitor system and graphic eidtor. If you are interested in this field, we can connect to each other to share informations or even start some cooperations
+tagline: all my links to blogs, medium platforms, content publishing platforms, or anything.
+url: https://me.zhangxinghai.cn
+baseUrl: ""
+port: 2035
+
+# jekyll-seo-tag
+
+twitter:
+  username: singhijohn89
+  card: summary
+
+logo: /assets/logo.png
+
+plugins:
+  - jekyll-seo-tag
