@@ -12,7 +12,7 @@ title: Welcome
 
 This is where I list my links and my main works over years.
 
-Hello, I am singhi. I am living in China, an ordinary developer, a front-end coder.
+I am living in China, a Chinese person, an ordinary developer, a front-end coder.
 
 During the past 3 years, I've been digging in webgl, leaflet. I made <a href="https://wik.zhangxinghai.cn">a web framework</a> to help develop a device monitor system and graphic eidtor. If you are interested in this field, we can connect to each other to share information or even start some cooperations for new project!
 
