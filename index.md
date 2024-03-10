@@ -26,11 +26,11 @@ Thanks for your visit.
 
 - [Time-Space Photos](https://www.tsphotos.art), a creative photos management & sharing platforms. It's under planing & developing.
 
-- [The Long Loneliness](https://www.longloneliness.com), a creative idea to  collect people's lonely feelings all around the world to help ease the pains.
+- [The Long Loneliness](http://www.longloneliness.com), a creative idea to  collect people's lonely feelings all around the world to help ease the pains.
 
 - [Solar system (webgl)](https://solar.zhangxinghai.cn), a wonderful website to display the solar system with actual data from JPL.
 
-- [Blogs](https://www.zhangxinghai.cn), a personal blogs website that records self daily thoughts with text, both negative or positive.
+- [Blog](https://www.zhangxinghai.cn), a personal blogs website that records self daily thoughts with text, both negative or positive.
 
 - [Videos](https://www.youtube.com/channel/UCOvEajUHgigi_lO3wKgpJvw), videos on youtube that record the travel life or anything else.
 
