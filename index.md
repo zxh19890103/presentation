@@ -30,7 +30,7 @@ Thanks for your visit.
 
 - [Solar system (webgl)](https://solar.zhangxinghai.cn), a wonderful website to display the solar system with actual data from JPL.
 
-- [Blog](https://www.zhangxinghai.cn), a personal blogs website that records self daily thoughts with text, both negative or positive.
+- [Blog](https://www.zhangxinghai.cn), a personal blog that records self daily thoughts with words, both negative or positive.
 
 - [Videos](https://www.youtube.com/channel/UCOvEajUHgigi_lO3wKgpJvw), videos on youtube that record the travel life or anything else.
 
