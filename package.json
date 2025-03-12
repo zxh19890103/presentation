@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/zxh19890103/Algorithm#readme",
   "dependencies": {
-    "d3": "^5.9.2",
+    "d3": "^7.6.1",
     "require.js": "^1.0.0"
   }
 }
